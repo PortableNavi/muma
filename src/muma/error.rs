@@ -5,9 +5,6 @@ use crate::muma::Id;
 #[derive(Debug, Error)]
 pub enum MumaError
 {
-    #[error("{0}")]
-    MalformedId(#[from] uuid::Error),
-
     #[error("The Task with the id '{0:?}' does not exist")]
     TaskDoesNotExist(Id),
 

@@ -8,7 +8,6 @@ clap = {version="4.5.4", features=["derive"]}
 thiserror = "1.0.58"
 colored = "2.1.0"
 serde = { version = "1.0.198", features = ["derive"] }
-uuid = { version = "1.8.0", features = ["v4"] }
 once_cell = "1.19.0"
 bimap = "0.6.3"
 toml = "0.8.12"

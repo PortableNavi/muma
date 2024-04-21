@@ -1,7 +1,7 @@
 use clap::Args;
 use crate::muma::error::*;
 use colored::Colorize;
-use crate::muma::{Task, TaskReg};
+use crate::muma::TaskReg;
 
 
 #[derive(Args)]
@@ -19,7 +19,7 @@ impl RemoveArgs
     {
         for i in &self.id
         {
-            let id = match TaskReg::hid2id(i)
+            match TaskReg::hid2id(i)
             {
                 Some(id) => {
                     match TaskReg::remove_task(&id)

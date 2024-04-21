@@ -1,12 +1,13 @@
-use crate::muma::{Id, Task};
-use crate::muma::error::{MumaResult, MumaError};
-use once_cell::sync::OnceCell;
-use std::sync::{Mutex, MutexGuard};
-use std::collections::btree_map::BTreeMap;
+use crate::muma::{Id, Task, error::{MumaResult, MumaError}};
+
 use serde::{Serialize, Deserialize};
 use bimap::BiBTreeMap as BiMap;
+use once_cell::sync::OnceCell;
+
 use std::io::Write;
 use std::path::{Path, PathBuf};
+use std::sync::{Mutex, MutexGuard};
+use std::collections::btree_map::BTreeMap;
 
 
 static INSTANCE: OnceCell<Mutex<TaskReg>> = OnceCell::new();
@@ -73,11 +74,12 @@ impl TaskReg
             .lock()
             .unwrap()
     }
-
+    
+    #[allow(unused)]
     pub fn exists(task: &Id) -> bool
     {
         let me = Self::get();
-        me.top_level.get(task).is_some() || me.child_level.get(task).is_some()
+        me.top_level.contains_key(task) || me.child_level.contains_key(task)
     }
 
     pub fn add_task(task: Task) -> MumaResult<()>
@@ -86,7 +88,7 @@ impl TaskReg
         {
             match Self::get().get_task_mut(parent)
             {
-                Some(t) => (t.children.push(task.uuid)), 
+                Some(t) => t.children.push(task.uuid), 
                 None => return Err(MumaError::TaskDoesNotExist(*parent)),
             }
 
@@ -167,7 +169,8 @@ impl TaskReg
     {
         Self::get().human_id.get_by_left(hid).copied()
     }
-
+    
+    #[allow(unused)]
     pub fn id2hid(id: &Id) -> Option<String>
     {
         Self::get().human_id.get_by_right(id).map(|e| e.to_string())
@@ -209,3 +212,4 @@ impl TaskReg
         }
     }
 }
+

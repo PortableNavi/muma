@@ -1,6 +1,6 @@
 use clap::Args;
 use crate::muma::error::*;
-use colored::{Colorize, ColoredString};
+use colored::Colorize;
 use crate::muma::TaskReg;
 
 #[derive(Args)]
@@ -22,11 +22,11 @@ impl DoneArgs
     {
         for i in &self.id
         {
-            let id = match TaskReg::hid2id(i)
+            match TaskReg::hid2id(i)
             {
                 Some(id) => TaskReg::set_done(&id, !self.undone),
                 None => return Ok(format!("{} Task with id '{}' not found", "Error:".bold().red(), i.red())),
-            };
+            }?;
         }
 
         Ok(String::new())

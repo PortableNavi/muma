@@ -1,23 +1,14 @@
-use crate::muma::{error::MumaResult, error::MumaError, Id, TaskReg};
+use crate::muma::Id;
 use serde::{Serialize, Deserialize};
-use uuid::Uuid;
 
 
-/// Desribes a Task entry in the todo list.
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Task
 {
-    /// Unique ID
     pub uuid: Id,
-
-    /// Text describing the task
     pub task: String,
-
     pub parent: Option<Id>,
-
-    /// A list of children tasks
     pub children: Vec<Id>,
-
     pub done: bool,
 }
 
@@ -46,6 +37,7 @@ impl Task
         }
     }
 
+    #[allow(unused)]
     pub fn is_child(&self) -> bool
     {
         self.parent.is_some()
